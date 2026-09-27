@@ -24,6 +24,8 @@ def test_importer_validation_and_commit():
     assert val["is_valid"] is True
     assert val["invalid_dates"] == 0
 
-    res = commit_import_to_db(conn, df, mapping, file_hash="hash_unique_123", source_name="test_upload.csv")
+    import uuid
+    test_hash = f"hash_test_{uuid.uuid4().hex[:12]}"
+    res = commit_import_to_db(conn, df, mapping, file_hash=test_hash, source_name="test_upload.csv")
     assert res["status"] == "success"
     assert res["rows_imported"] == 2
