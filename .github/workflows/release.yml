@@ -1,0 +1,56 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build-and-release:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Python dependencies & PyInstaller
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r engine/requirements-lock.txt
+          pip install pyinstaller
+
+      - name: Run test suite before packaging
+        run: |
+          pytest engine/tests -v
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Build Python Engine Bundle
+        shell: pwsh
+        run: ./scripts/build-engine.ps1
+
+      - name: Publish WinUI 3 App
+        shell: pwsh
+        run: ./scripts/build-app.ps1 -Configuration Release
+
+      - name: Package Release ZIP & SHA-256
+        shell: pwsh
+        run: ./scripts/package-release.ps1 -Version ${{ github.ref_name }}
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            dist/*.zip
+            dist/*.sha256
+          draft: false
+          prerelease: false
+          generate_release_notes: true

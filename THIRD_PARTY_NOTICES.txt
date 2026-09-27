@@ -1,0 +1,36 @@
+ReelScope Third-Party Notices
+==============================
+
+This software bundles third-party software components licensed under open source licenses:
+
+1. DuckDB (MIT License)
+   https://duckdb.org
+   Copyright (c) 2018-2026 Stichting DuckDB Foundation
+
+2. FastAPI (MIT License)
+   https://fastapi.tiangolo.com
+   Copyright (c) 2018 Sebastián Ramírez
+
+3. Uvicorn (BSD 3-Clause)
+   https://www.uvicorn.org
+   Copyright (c) 2017-present, Encode OSS Ltd.
+
+4. Scikit-learn (BSD 3-Clause)
+   https://scikit-learn.org
+   Copyright (c) 2007-2026 The scikit-learn developers.
+
+5. SciPy (BSD 3-Clause)
+   https://scipy.org
+   Copyright (c) 2001-2002 Enthought, Inc. 2003-2026 SciPy Developers.
+
+6. Statsmodels (BSD 3-Clause)
+   https://www.statsmodels.org
+   Copyright (c) 2006, Jonathan E. Taylor, 2008-2026 statsmodels developers.
+
+7. Pandas (BSD 3-Clause)
+   https://pandas.pydata.org
+   Copyright (c) 2008-2011, AQR Capital Management, LLC, 2011-2026, Lambda Foundry, Inc. and PyData Development Team.
+
+8. Windows App SDK & WinUI 3 (MIT License)
+   https://github.com/microsoft/WindowsAppSDK
+   Copyright (c) Microsoft Corporation.
