@@ -14,6 +14,7 @@ Write-Host "Ensuring PyInstaller is installed..." -ForegroundColor Cyan
 & $PythonExe -m pip install --quiet pyinstaller
 
 $EngineDir = Join-Path $PSScriptRoot "..\engine"
+$SqlDir = Join-Path $PSScriptRoot "..\sql"
 $DistDir = Join-Path $PSScriptRoot "..\dist"
 $AssetsEngineDir = Join-Path $PSScriptRoot "..\src\ReelScope.App\Assets\Engine\reelscope-engine"
 
@@ -24,10 +25,18 @@ Write-Host "Running PyInstaller onedir build..." -ForegroundColor Cyan
     --onedir `
     --name reelscope-engine `
     --distpath $DistDir `
-    --collect-all duckdb `
-    --collect-all sklearn `
-    --collect-all scipy `
-    --collect-all statsmodels `
+    --add-data "$SqlDir;sql" `
+    --hidden-import "duckdb" `
+    --hidden-import "uvicorn" `
+    --hidden-import "uvicorn.logging" `
+    --hidden-import "uvicorn.loops.auto" `
+    --hidden-import "uvicorn.protocols.http.auto" `
+    --hidden-import "uvicorn.protocols.websockets.auto" `
+    --hidden-import "uvicorn.lifespans.on" `
+    --hidden-import "scipy.special.cython_special" `
+    --hidden-import "sklearn.utils._typedefs" `
+    --collect-submodules "reelscope_engine" `
+    --collect-data "duckdb" `
     --paths $EngineDir `
     "$EngineDir\reelscope_engine\__main__.py"
 

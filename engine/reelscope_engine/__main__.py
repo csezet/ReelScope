@@ -1,6 +1,7 @@
 import argparse
 import os
 import sys
+import multiprocessing
 import uvicorn
 
 def main():
@@ -20,8 +21,12 @@ def main():
     # Force 127.0.0.1 for desktop safety
     host = "127.0.0.1" if args.host != "127.0.0.1" else args.host
 
-    print(f"Starting ReelScope Engine on http://{host}:{args.port}")
-    uvicorn.run("reelscope_engine.main:app", host=host, port=args.port, log_level="info")
+    print(f"Starting ReelScope Engine on http://{host}:{args.port}", flush=True)
+    from reelscope_engine.main import app
+    config = uvicorn.Config(app, host=host, port=args.port, log_level="info", loop="asyncio")
+    server = uvicorn.Server(config)
+    server.run()
 
 if __name__ == "__main__":
+    multiprocessing.freeze_support()
     main()

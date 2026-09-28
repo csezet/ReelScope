@@ -22,6 +22,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r engine/requirements-lock.txt
+          pip install -e ./engine
           pip install pyinstaller
 
       - name: Run test suite before packaging

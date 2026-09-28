@@ -29,8 +29,16 @@ async def lifespan(app: FastAPI):
     # Startup: execute database migrations
     conn = get_db()
     # Resolve sql directory
-    base_dir = Path(__file__).resolve().parent.parent.parent
-    sql_dir = base_dir / "sql"
+    if getattr(sys, "frozen", False):
+        meipass = getattr(sys, "_MEIPASS", None)
+        if meipass and (Path(meipass) / "sql").exists():
+            sql_dir = Path(meipass) / "sql"
+        else:
+            sql_dir = Path(sys.executable).parent / "sql"
+    else:
+        base_dir = Path(__file__).resolve().parent.parent.parent
+        sql_dir = base_dir / "sql"
+
     if sql_dir.exists():
         run_migrations(conn, sql_dir)
     yield

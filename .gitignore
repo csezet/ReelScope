@@ -58,3 +58,7 @@ ehthumbs.db
 Desktop.ini
 $RECYCLE.BIN/
 .DS_Store
+
+# PyInstaller / Build Artifacts
+*.spec
+src/ReelScope.App/Assets/Engine/
