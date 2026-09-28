@@ -5,9 +5,8 @@ $ErrorActionPreference = "Stop"
 
 Write-Host "Checking virtual environment..." -ForegroundColor Cyan
 $PythonExe = Join-Path $PSScriptRoot "..\.venv\Scripts\python.exe"
-
 if (-not (Test-Path $PythonExe)) {
-    Write-Error "Virtual environment not found at $PythonExe. Run scripts\bootstrap.ps1 first."
+    $PythonExe = "python"
 }
 
 Write-Host "Ensuring PyInstaller is installed..." -ForegroundColor Cyan
