@@ -132,3 +132,74 @@ def run_bootstrap_simulation(control_values: List[float], treatment_values: List
             "counts": [int(c) for c in counts]
         }
     }
+
+
+def calculate_sample_size_proportions(
+    base_rate: float,
+    mde_relative_pct: float,
+    alpha: float = 0.05,
+    power: float = 0.80
+) -> Dict[str, Any]:
+    """
+    Computes required sample size per variant for binary metric tests (e.g. completion rate).
+    Based on standard two-sided normal approximation with given alpha and power.
+    """
+    if base_rate <= 0 or base_rate >= 1.0:
+        raise ValueError("base_rate must be between 0 and 1 exclusive.")
+    if mde_relative_pct <= 0:
+        raise ValueError("mde_relative_pct must be positive.")
+
+    abs_lift = base_rate * (mde_relative_pct / 100.0)
+    z_alpha = stats.norm.ppf(1 - alpha / 2)
+    z_beta = stats.norm.ppf(power)
+
+    # Variance under null and alternative
+    p1 = base_rate
+    p2 = base_rate + abs_lift
+    variance = (p1 * (1 - p1)) + (p2 * (1 - p2))
+
+    n_required = int(math.ceil(((z_alpha + z_beta) ** 2 * variance) / (abs_lift ** 2)))
+
+    return {
+        "metric_type": "binary_proportion",
+        "base_rate": round(base_rate, 4),
+        "mde_relative_pct": round(mde_relative_pct, 2),
+        "mde_absolute_pp": round(abs_lift * 100.0, 2),
+        "alpha": alpha,
+        "power": power,
+        "required_sample_size_per_variant": n_required,
+        "total_sample_size": n_required * 2
+    }
+
+
+def calculate_mde_proportions(
+    n_per_variant: int,
+    base_rate: float,
+    alpha: float = 0.05,
+    power: float = 0.80
+) -> Dict[str, Any]:
+    """
+    Computes Minimum Detectable Effect (MDE) given available sample size per variant.
+    """
+    if n_per_variant < 10:
+        raise ValueError("n_per_variant must be at least 10.")
+    if base_rate <= 0 or base_rate >= 1.0:
+        raise ValueError("base_rate must be between 0 and 1 exclusive.")
+
+    z_alpha = stats.norm.ppf(1 - alpha / 2)
+    z_beta = stats.norm.ppf(power)
+
+    # Standard error approximation
+    se_factor = math.sqrt(2 * base_rate * (1 - base_rate) / n_per_variant)
+    abs_mde = (z_alpha + z_beta) * se_factor
+    rel_mde_pct = (abs_mde / base_rate) * 100.0
+
+    return {
+        "n_per_variant": n_per_variant,
+        "base_rate": round(base_rate, 4),
+        "alpha": alpha,
+        "power": power,
+        "mde_absolute_pp": round(abs_mde * 100.0, 2),
+        "mde_relative_pct": round(rel_mde_pct, 2)
+    }
+

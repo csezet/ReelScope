@@ -12,6 +12,7 @@ class SQLQueryRequest(BaseModel):
 FORBIDDEN_KEYWORDS = ["DROP", "DELETE", "UPDATE", "INSERT", "ALTER", "TRUNCATE", "CREATE", "GRANT", "REVOKE"]
 
 @router.post("/query")
+@router.post("/select")
 def execute_sql_query(req: SQLQueryRequest) -> Dict[str, Any]:
     cleaned = req.query.strip().rstrip(";")
     upper = cleaned.upper()

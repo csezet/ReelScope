@@ -2,11 +2,30 @@ from fastapi import APIRouter, Query, Body, HTTPException
 from typing import Optional, Dict, Any, List
 from pydantic import BaseModel
 from reelscope_engine.db import get_db
-from reelscope_engine.experiments.stats import analyze_proportions, analyze_continuous, run_bootstrap_simulation
+from reelscope_engine.experiments.stats import (
+    analyze_proportions,
+    analyze_continuous,
+    run_bootstrap_simulation,
+    calculate_sample_size_proportions,
+    calculate_mde_proportions
+)
 
 router = APIRouter(prefix="/api/experiments", tags=["Experiments"])
 
+class SampleSizeRequest(BaseModel):
+    base_rate: float
+    mde_relative_pct: float
+    alpha: float = 0.05
+    power: float = 0.80
+
+class MdeRequest(BaseModel):
+    n_per_variant: int
+    base_rate: float
+    alpha: float = 0.05
+    power: float = 0.80
+
 class AnalyzeExperimentRequest(BaseModel):
+
     experiment_id: str
     alpha: float = 0.05
     n_bootstrap: int = 10000
@@ -82,3 +101,26 @@ def analyze_experiment(req: AnalyzeExperimentRequest) -> Dict[str, Any]:
             "Test additional variations (e.g. different hooks or thumbnail styles) to build on the improvement."
         ]
     }
+
+
+@router.post("/sample-size")
+def calculate_sample_size_endpoint(req: SampleSizeRequest) -> Dict[str, Any]:
+    """Calculates required sample size per variant for a desired MDE, alpha, and power."""
+    return calculate_sample_size_proportions(
+        base_rate=req.base_rate,
+        mde_relative_pct=req.mde_relative_pct,
+        alpha=req.alpha,
+        power=req.power
+    )
+
+
+@router.post("/mde")
+def calculate_mde_endpoint(req: MdeRequest) -> Dict[str, Any]:
+    """Calculates Minimum Detectable Effect given sample size per variant."""
+    return calculate_mde_proportions(
+        n_per_variant=req.n_per_variant,
+        base_rate=req.base_rate,
+        alpha=req.alpha,
+        power=req.power
+    )
+

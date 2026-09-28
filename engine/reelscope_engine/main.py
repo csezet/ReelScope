@@ -20,7 +20,8 @@ from reelscope_engine.api import (
     segments_router,
     sql_router,
     imports_router,
-    demo_router
+    demo_router,
+    export_router
 )
 
 @asynccontextmanager
@@ -82,6 +83,7 @@ app.include_router(segments_router)
 app.include_router(sql_router)
 app.include_router(imports_router)
 app.include_router(demo_router)
+app.include_router(export_router)
 
 @app.post("/shutdown")
 def shutdown():

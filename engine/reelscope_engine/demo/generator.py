@@ -186,6 +186,106 @@ def generate_demo_dataset(num_posts=300, seed=42):
             "control_rate": 0.068,
             "treatment_rate": 0.084,
             "n": 2500
+        },
+        {
+            "experiment_id": "exp_caption_question",
+            "name": "Interactive Question Hook in Caption",
+            "metric": "engagement_rate",
+            "control_label": "Statement Caption",
+            "treatment_label": "Provocative Question",
+            "control_rate": 0.052,
+            "treatment_rate": 0.076,
+            "n": 2000
+        },
+        {
+            "experiment_id": "exp_looping_ending",
+            "name": "Seamless Loop Ending vs Fade Out",
+            "metric": "completion_rate",
+            "control_label": "Natural Fade Out",
+            "treatment_label": "Seamless Seamless Loop",
+            "control_rate": 0.450,
+            "treatment_rate": 0.525,
+            "n": 1800
+        },
+        {
+            "experiment_id": "exp_first_frame_text",
+            "name": "Frame 1 Text Overlay: High-Contrast Yellow vs White",
+            "metric": "completion_rate",
+            "control_label": "Clean White Text",
+            "treatment_label": "High-Contrast Yellow Box",
+            "control_rate": 0.380,
+            "treatment_rate": 0.435,
+            "n": 2200
+        },
+        {
+            "experiment_id": "exp_share_cta",
+            "name": "End Screen CTA: 'Send to a friend' vs None",
+            "metric": "share_rate",
+            "control_label": "No CTA",
+            "treatment_label": "Direct Share Cue",
+            "control_rate": 0.021,
+            "treatment_rate": 0.044,
+            "n": 3000
+        },
+        {
+            "experiment_id": "exp_audio_trending",
+            "name": "Trending Audio Track vs Original Voiceover",
+            "metric": "conversion_rate",
+            "control_label": "Original Voice Alone",
+            "treatment_label": "Trending Lo-Fi Audio Bed",
+            "control_rate": 0.045,
+            "treatment_rate": 0.062,
+            "n": 1600
+        },
+        {
+            "experiment_id": "exp_pacing_cut_rate",
+            "name": "Cut Frequency (1.5s cuts vs 4s cuts)",
+            "metric": "completion_rate",
+            "control_label": "Relaxed Pacing (4s cuts)",
+            "treatment_label": "Fast Pacing (1.5s cuts)",
+            "control_rate": 0.410,
+            "treatment_rate": 0.490,
+            "n": 2100
+        },
+        {
+            "experiment_id": "exp_post_time_window",
+            "name": "Publishing Time: Evening (19:00) vs Midday (12:00)",
+            "metric": "conversion_rate",
+            "control_label": "Midday 12:00 PM",
+            "treatment_label": "Evening 7:00 PM Prime",
+            "control_rate": 0.055,
+            "treatment_rate": 0.071,
+            "n": 1900
+        },
+        {
+            "experiment_id": "exp_stitch_reaction",
+            "name": "Content Style: Stitch Reaction vs Solo Monologue",
+            "metric": "engagement_rate",
+            "control_label": "Solo Monologue",
+            "treatment_label": "Stitch with Trending Creator",
+            "control_rate": 0.060,
+            "treatment_rate": 0.088,
+            "n": 1700
+        },
+        {
+            "experiment_id": "exp_sound_effects",
+            "name": "Audio Foley: Whoosh SFX on Transitions",
+            "metric": "completion_rate",
+            "control_label": "No Transition SFX",
+            "treatment_label": "Subtle Whoosh SFX",
+            "control_rate": 0.440,
+            "treatment_rate": 0.475,
+            "n": 1500
+        },
+        {
+            "experiment_id": "exp_subtitle_style",
+            "name": "Kinetic Animated Subtitles vs Static Subtitles",
+            "metric": "completion_rate",
+            "control_label": "Static Bottom Subtitles",
+            "treatment_label": "Kinetic Bouncing Words",
+            "control_rate": 0.480,
+            "treatment_rate": 0.540,
+            "n": 2400
         }
     ]
 

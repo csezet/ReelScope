@@ -7,6 +7,13 @@ from reelscope_engine.api.segments import run_segmentation, ClusteringRequest, g
 from reelscope_engine.api.experiments import analyze_experiment, AnalyzeExperimentRequest
 from reelscope_engine.api.sql_lab import execute_sql_query, SQLQueryRequest
 from reelscope_engine.api.demo import load_demo_data
+from reelscope_engine.api.export import export_data, ExportRequest
+from reelscope_engine.api.experiments import (
+    calculate_sample_size_endpoint,
+    calculate_mde_endpoint,
+    SampleSizeRequest,
+    MdeRequest
+)
 
 def test_health_check():
     res = get_health()
@@ -62,3 +69,29 @@ def test_demo_and_dashboard():
     # 9. SQL Lab rejects mutations
     with pytest.raises(Exception):
         execute_sql_query(SQLQueryRequest(query="DROP TABLE posts"))
+
+    # 10. Sample Size & MDE Endpoints
+    ss_res = calculate_sample_size_endpoint(SampleSizeRequest(base_rate=0.08, mde_relative_pct=15.0))
+    assert ss_res["required_sample_size_per_variant"] > 0
+
+    mde_res = calculate_mde_endpoint(MdeRequest(n_per_variant=2000, base_rate=0.08))
+    assert mde_res["mde_relative_pct"] > 0
+
+    # 11. Reports & Export (CSV, HTML, JSON, Diagnostics Bundle)
+    csv_exp = export_data(ExportRequest(export_type="csv", scope="posts"))
+    assert csv_exp["status"] == "success"
+    assert csv_exp["file_size_bytes"] > 0
+
+    html_exp = export_data(ExportRequest(export_type="html", scope="dashboard"))
+    assert html_exp["status"] == "success"
+    assert html_exp["file_size_bytes"] > 0
+
+    json_exp = export_data(ExportRequest(export_type="json", scope="cohorts"))
+    assert json_exp["status"] == "success"
+    assert json_exp["file_size_bytes"] > 0
+
+    diag_exp = export_data(ExportRequest(export_type="diagnostics", scope="diagnostics"))
+    assert diag_exp["status"] == "success"
+    assert diag_exp["file_size_bytes"] > 0
+    assert diag_exp["file_name"].endswith(".zip")
+

@@ -7,6 +7,7 @@ from reelscope_engine.api.segments import router as segments_router
 from reelscope_engine.api.sql_lab import router as sql_router
 from reelscope_engine.api.imports import router as imports_router
 from reelscope_engine.api.demo import router as demo_router
+from reelscope_engine.api.export import router as export_router
 
 __all__ = [
     "health_router",
@@ -17,5 +18,6 @@ __all__ = [
     "segments_router",
     "sql_router",
     "imports_router",
-    "demo_router"
+    "demo_router",
+    "export_router"
 ]

@@ -18,9 +18,11 @@
 - **Import Data Wizard**: Drag-and-drop ingest with automatic type inference, column mapping, date parsing, and transactional commit into DuckDB.
 - **Content Analytics & Post Explorer**: Multi-dimensional filtering by platform, format, and topic, with views vs. completion scatter plot and full snapshot drill-down.
 - **Cohort Analysis**: Temporal publication cohorts tracking view decay and retention at 24h, 3d, 7d, 14d, 21d, and 30d checkpoints with interactive heatmaps.
-- **A/B Test Lab**: Frequentist hypothesis testing (Two-proportion z-test, Welch's t-test) and 10,000-resample empirical Bootstrap simulation with 95% confidence bands.
+- **A/B Test Lab**: Frequentist hypothesis testing (Two-proportion z-test, Welch's t-test), MDE & sample size planning, and 10,000-resample empirical Bootstrap simulation with 95% confidence bands.
 - **Audience & Content Segments**: Unsupervised KMeans clustering with silhouette score optimization, spider/radar profiles, and Median/MAD robust z-score anomaly detection.
+- **Reports & Diagnostics Export**: One-click atomic export to CSV, styled HTML reports, JSON, and comprehensive system diagnostics bundle ZIP.
 - **SQL Lab**: Embedded read-only SQL editor allowing direct queries over the local DuckDB database.
+- **Detailed Metrics Dictionary**: Full formulas and platform mapping specifications available in [METRICS.md](METRICS.md).
 
 ---
 
@@ -155,6 +157,9 @@ cd reelscope
 
 # 4. Launch engine in standalone development mode
 .\scripts\run-engine.ps1 -Port 8000
+
+# 5. (Optional) Generate 50,000-post benchmark dataset for scale testing
+.\.venv\Scripts\python.exe scripts\generate_benchmark_dataset.py 50000
 ```
 
 ---

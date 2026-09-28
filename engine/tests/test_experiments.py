@@ -1,5 +1,11 @@
 import pytest
-from reelscope_engine.experiments.stats import analyze_proportions, analyze_continuous, run_bootstrap_simulation
+from reelscope_engine.experiments.stats import (
+    analyze_proportions,
+    analyze_continuous,
+    run_bootstrap_simulation,
+    calculate_sample_size_proportions,
+    calculate_mde_proportions
+)
 
 def test_analyze_proportions():
     # Control: 421 / 1000 (42.1%), Treatment: 468 / 1000 (46.8%)
@@ -29,3 +35,16 @@ def test_bootstrap_simulation():
     assert res["ci_lower_95"] < res["ci_upper_95"]
     assert len(res["histogram"]["bins"]) > 0
     assert len(res["histogram"]["counts"]) == len(res["histogram"]["bins"])
+
+def test_calculate_sample_size():
+    # Baseline 10% conversion, detecting 20% relative lift (from 10% to 12%)
+    res = calculate_sample_size_proportions(base_rate=0.10, mde_relative_pct=20.0, alpha=0.05, power=0.80)
+    assert res["required_sample_size_per_variant"] > 1000
+    assert res["total_sample_size"] == res["required_sample_size_per_variant"] * 2
+
+def test_calculate_mde():
+    # Sample size 5000 per variant, baseline 5%
+    res = calculate_mde_proportions(n_per_variant=5000, base_rate=0.05, alpha=0.05, power=0.80)
+    assert res["mde_absolute_pp"] > 0
+    assert res["mde_relative_pct"] > 0
+
