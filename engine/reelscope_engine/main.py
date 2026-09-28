@@ -6,7 +6,7 @@ from pathlib import Path
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, Request, HTTPException, status
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, HTMLResponse
 from fastapi.middleware.cors import CORSMiddleware
 
 from reelscope_engine.config import SESSION_TOKEN
@@ -65,8 +65,8 @@ app.add_middleware(
 # Security Token Middleware
 @app.middleware("http")
 async def verify_session_token(request: Request, call_next):
-    # Exempt health, docs, and shutdown
-    exempt_paths = ["/health", "/docs", "/openapi.json", "/redoc"]
+    # Exempt web dashboard, health, docs, and shutdown
+    exempt_paths = ["/", "/health", "/docs", "/openapi.json", "/redoc", "/favicon.ico"]
     if request.url.path in exempt_paths:
         return await call_next(request)
         
@@ -92,6 +92,14 @@ app.include_router(sql_router)
 app.include_router(imports_router)
 app.include_router(demo_router)
 app.include_router(export_router)
+
+@app.get("/", response_class=HTMLResponse)
+def get_web_dashboard():
+    """Serves the interactive ReelScope workstation web dashboard."""
+    dashboard_file = Path(__file__).resolve().parent / "web_dashboard.html"
+    if dashboard_file.exists():
+        return HTMLResponse(content=dashboard_file.read_text(encoding="utf-8"))
+    return HTMLResponse("<h1>ReelScope Engine Online</h1><p>Visit <a href='/docs'>/docs</a></p>")
 
 @app.post("/shutdown")
 def shutdown():

@@ -3,7 +3,7 @@
 
 param (
     [int]$Port = 8000,
-    [string]$Token = "dev_session_token_123"
+    [string]$Token = ""
 )
 
 $ErrorActionPreference = "Stop"

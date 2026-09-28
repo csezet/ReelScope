@@ -18,6 +18,7 @@ namespace ReelScope.App.ViewModels
         public bool IsUploading { get => _isUploading; set => SetField(ref _isUploading, value); }
         public int CurrentStep { get => _currentStep; set => SetField(ref _currentStep, value); }
         public string? SelectedFilePath { get => _selectedFilePath; set => SetField(ref _selectedFilePath, value); }
+        public string? FileHash { get => _fileHash; set => SetField(ref _fileHash, value); }
         public string StatusMessage { get => _statusMessage; set => SetField(ref _statusMessage, value); }
 
         public ObservableCollection<string> DetectedColumns { get; } = new();
