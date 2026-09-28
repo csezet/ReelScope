@@ -1,0 +1,147 @@
+<Page
+    x:Class="ReelScope.App.Views.PostsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Spacing="16" Padding="16,0,16,24">
+            <!-- Header -->
+            <StackPanel>
+                <TextBlock Text="Content Analytics" FontSize="26" FontWeight="Bold"/>
+                <TextBlock Text="Post-level performance, filters, and breakdowns" FontSize="14" Foreground="#8B949E" Margin="0,4,0,0"/>
+            </StackPanel>
+
+            <!-- Multi-Filter Bar (Reference 3) -->
+            <Border Background="#1C2128" CornerRadius="12" BorderBrush="#30363D" BorderThickness="1" Padding="12">
+                <Grid ColumnDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,*,Auto" ColumnSpacing="10">
+                    <ComboBox Header="Platform" SelectedIndex="0" CornerRadius="6">
+                        <ComboBoxItem Content="All Platforms"/>
+                        <ComboBoxItem Content="TikTok"/>
+                        <ComboBoxItem Content="Instagram Reels"/>
+                        <ComboBoxItem Content="YouTube Shorts"/>
+                    </ComboBox>
+
+                    <ComboBox Grid.Column="1" Header="Format" SelectedIndex="0" CornerRadius="6">
+                        <ComboBoxItem Content="All Formats"/>
+                        <ComboBoxItem Content="Talking Head"/>
+                        <ComboBoxItem Content="B-Roll"/>
+                        <ComboBoxItem Content="Screen Record"/>
+                    </ComboBox>
+
+                    <ComboBox Grid.Column="2" Header="Duration" SelectedIndex="0" CornerRadius="6">
+                        <ComboBoxItem Content="All Durations"/>
+                        <ComboBoxItem Content="Under 30s"/>
+                        <ComboBoxItem Content="30s - 60s"/>
+                    </ComboBox>
+
+                    <ComboBox Grid.Column="3" Header="Topic" SelectedIndex="0" CornerRadius="6">
+                        <ComboBoxItem Content="All Topics"/>
+                        <ComboBoxItem Content="Mindset"/>
+                        <ComboBoxItem Content="Tech &amp; Setup"/>
+                        <ComboBoxItem Content="Lifestyle"/>
+                    </ComboBox>
+
+                    <ComboBox Grid.Column="4" Header="Creator" SelectedIndex="0" CornerRadius="6">
+                        <ComboBoxItem Content="All Creators"/>
+                        <ComboBoxItem Content="@alexcreates"/>
+                    </ComboBox>
+
+                    <Button Grid.Column="7" Content="Reset Filters" VerticalAlignment="Bottom" CornerRadius="6"/>
+                </Grid>
+            </Border>
+
+            <!-- Charts Row: Content Breakdown & Views vs Completion Scatter -->
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="16">
+                <!-- Stacked Breakdown -->
+                <Border Background="#1C2128" CornerRadius="12" BorderBrush="#30363D" BorderThickness="1" Padding="16">
+                    <StackPanel Spacing="10">
+                        <TextBlock Text="Content Breakdown" FontSize="15" FontWeight="SemiBold"/>
+                        <TextBlock Text="Total views by platform and format" FontSize="11" Foreground="#8B949E"/>
+                        <Border Height="180" Background="#0D1117" CornerRadius="8">
+                            <WebView2 x:Name="BreakdownWebView"/>
+                        </Border>
+                    </StackPanel>
+                </Border>
+
+                <!-- Scatter Plot -->
+                <Border Grid.Column="1" Background="#1C2128" CornerRadius="12" BorderBrush="#30363D" BorderThickness="1" Padding="16">
+                    <StackPanel Spacing="10">
+                        <TextBlock Text="Views vs Completion Rate" FontSize="15" FontWeight="SemiBold"/>
+                        <TextBlock Text="Each dot represents a post (log scale)" FontSize="11" Foreground="#8B949E"/>
+                        <Border Height="180" Background="#0D1117" CornerRadius="8">
+                            <WebView2 x:Name="ScatterWebView"/>
+                        </Border>
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+            <!-- Bottom Content Grid + Right Inspector (Reference 3) -->
+            <Grid ColumnDefinitions="2*,*" ColumnSpacing="16">
+                <!-- DataGrid Table -->
+                <Border Background="#1C2128" CornerRadius="12" BorderBrush="#30363D" BorderThickness="1" Padding="16">
+                    <StackPanel Spacing="12">
+                        <Grid ColumnDefinitions="Auto,*,Auto,Auto" ColumnSpacing="10">
+                            <TextBlock Text="All Content" FontSize="15" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                            <TextBox Grid.Column="1" PlaceholderText="Search content..." Width="220" HorizontalAlignment="Left" CornerRadius="6"/>
+                            <Button Grid.Column="2" Content="Columns" CornerRadius="6"/>
+                            <Button Grid.Column="3" Content="Export" CornerRadius="6"/>
+                        </Grid>
+
+                        <ListView x:Name="PostsListView" SelectionMode="Single" SelectionChanged="OnPostSelected" Height="360"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Right Post Inspector Sidebar -->
+                <Border Grid.Column="1" Background="#1C2128" CornerRadius="12" BorderBrush="#30363D" BorderThickness="1" Padding="16">
+                    <StackPanel Spacing="14">
+                        <!-- Preview Card -->
+                        <Border Height="140" Background="#0D1117" CornerRadius="8">
+                            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="6">
+                                <FontIcon Glyph="&#xE768;" FontSize="28" Foreground="#58A6FF"/>
+                                <TextBlock Text="The 5 AM Mindset Changed My Life" FontSize="13" FontWeight="SemiBold"/>
+                                <TextBlock Text="0:28 • Instagram Reels" FontSize="11" Foreground="#8B949E"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Key Metrics -->
+                        <TextBlock Text="Key Metrics" FontSize="14" FontWeight="SemiBold"/>
+                        <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto" RowSpacing="10" ColumnSpacing="10">
+                            <StackPanel>
+                                <TextBlock Text="Views" FontSize="11" Foreground="#8B949E"/>
+                                <TextBlock Text="248K" FontSize="16" FontWeight="Bold"/>
+                            </StackPanel>
+                            <StackPanel Grid.Column="1">
+                                <TextBlock Text="Engagement Rate" FontSize="11" Foreground="#8B949E"/>
+                                <TextBlock Text="8.4%" FontSize="16" FontWeight="Bold"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="1">
+                                <TextBlock Text="Completion Rate" FontSize="11" Foreground="#8B949E"/>
+                                <TextBlock Text="72%" FontSize="16" FontWeight="Bold"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="1" Grid.Column="1">
+                                <TextBlock Text="Saves" FontSize="11" Foreground="#8B949E"/>
+                                <TextBlock Text="12.4K" FontSize="16" FontWeight="Bold"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="2">
+                                <TextBlock Text="Followers Gained" FontSize="11" Foreground="#8B949E"/>
+                                <TextBlock Text="+892" FontSize="16" FontWeight="Bold"/>
+                            </StackPanel>
+                        </Grid>
+
+                        <!-- Details Metadata -->
+                        <TextBlock Text="Post Details" FontSize="14" FontWeight="SemiBold" Margin="0,8,0,0"/>
+                        <StackPanel Spacing="4">
+                            <TextBlock Text="Platform: Instagram (Reels)" FontSize="12" Foreground="#8B949E"/>
+                            <TextBlock Text="Published: May 30, 2024, 7:14 AM" FontSize="12" Foreground="#8B949E"/>
+                            <TextBlock Text="Duration: 28 seconds" FontSize="12" Foreground="#8B949E"/>
+                            <TextBlock Text="Topic: Mindset, Productivity" FontSize="12" Foreground="#8B949E"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </StackPanel>
+    </ScrollViewer>
+</Page>

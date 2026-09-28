@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdn.plot.ly/plotly-2.29.0.min.js"></script>
+    <style>
+        body { margin: 0; background: #0D1117; color: #C9D1D9; font-family: Segoe UI, sans-serif; overflow: hidden; }
+    </style>
+</head>
+<body>
+    <div id="bootHist" style="width: 100vw; height: 100vh;"></div>
+    <script>
+        var bins = [-0.01, -0.005, 0.0, 0.005, 0.01, 0.015, 0.016, 0.02, 0.025, 0.03, 0.035, 0.04];
+        var counts = [40, 150, 420, 1100, 2200, 3100, 2800, 1800, 850, 280, 70, 15];
+
+        var trace = {
+            x: bins,
+            y: counts,
+            type: 'bar',
+            marker: {
+                color: bins.map(function(b) {
+                    return (b >= 0.009 && b <= 0.023) ? '#8957E5' : '#30363D';
+                })
+            }
+        };
+
+        var layout = {
+            margin: { t: 15, r: 15, l: 45, b: 35 },
+            paper_bgcolor: '#0D1117',
+            plot_bgcolor: '#0D1117',
+            shapes: [{
+                type: 'line',
+                x0: 0.016,
+                x1: 0.016,
+                y0: 0,
+                y1: 3200,
+                line: { color: '#00D2FF', width: 2, dash: 'dot' }
+            }],
+            annotations: [{
+                x: 0.016,
+                y: 3100,
+                xref: 'x',
+                yref: 'y',
+                text: 'Observed: +1.6%',
+                showarrow: true,
+                arrowhead: 2,
+                arrowcolor: '#00D2FF',
+                font: { color: '#00D2FF', size: 11 }
+            }],
+            xaxis: {
+                gridcolor: '#21262D',
+                color: '#8B949E',
+                tickformat: '+.1%'
+            },
+            yaxis: {
+                gridcolor: '#21262D',
+                color: '#8B949E'
+            }
+        };
+
+        Plotly.newPlot('bootHist', [trace], layout, {responsive: true, displayModeBar: false});
+    </script>
+</body>
+</html>

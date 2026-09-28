@@ -1,0 +1,54 @@
+<Page
+    x:Class="ReelScope.App.Views.SqlLabPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Spacing="16" Padding="16,0,16,24">
+            <StackPanel>
+                <TextBlock Text="SQL Lab" FontSize="26" FontWeight="Bold"/>
+                <TextBlock Text="Direct read-only analytical queries against local DuckDB columnar database" FontSize="14" Foreground="#8B949E" Margin="0,4,0,0"/>
+            </StackPanel>
+
+            <!-- Query Input Card -->
+            <Border Background="#1C2128" CornerRadius="12" BorderBrush="#30363D" BorderThickness="1" Padding="16">
+                <StackPanel Spacing="12">
+                    <Grid ColumnDefinitions="*,Auto,Auto" ColumnSpacing="10">
+                        <TextBlock Text="Query Editor" FontSize="15" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                        <ComboBox Grid.Column="1" Header="Sample Query" SelectedIndex="0" SelectionChanged="OnSampleSelected" CornerRadius="6">
+                            <ComboBoxItem Content="1. Platform Aggregates (Window Functions)"/>
+                            <ComboBoxItem Content="2. 24h Velocity &amp; Growth Milestones"/>
+                            <ComboBoxItem Content="3. Top Viral Posts (Views > 200K)"/>
+                        </ComboBox>
+                        <Button Grid.Column="2" Content="Run Query (F5)" Click="OnRunQueryClicked" Style="{ThemeResource AccentButtonStyle}" VerticalAlignment="Bottom" CornerRadius="6" Padding="16,8"/>
+                    </Grid>
+
+                    <TextBox
+                        x:Name="SqlEditorBox"
+                        AcceptsReturn="True"
+                        Height="140"
+                        FontFamily="Consolas, Cascadia Code, monospace"
+                        FontSize="13"
+                        CornerRadius="8"
+                        Background="#0D1117"
+                        Foreground="#E6EDF3"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Results Card -->
+            <Border Background="#1C2128" CornerRadius="12" BorderBrush="#30363D" BorderThickness="1" Padding="16">
+                <StackPanel Spacing="12">
+                    <Grid ColumnDefinitions="*,Auto">
+                        <TextBlock Text="Query Results" FontSize="15" FontWeight="SemiBold"/>
+                        <TextBlock x:Name="TxtResultCount" Text="0 rows returned" FontSize="12" Foreground="#8B949E" VerticalAlignment="Center"/>
+                    </Grid>
+
+                    <ListView x:Name="ResultsListView" Height="280" SelectionMode="None"/>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+</Page>

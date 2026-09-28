@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdn.plot.ly/plotly-2.29.0.min.js"></script>
+    <style>
+        body { margin: 0; background: #0D1117; color: #C9D1D9; font-family: Segoe UI, sans-serif; overflow: hidden; }
+    </style>
+</head>
+<body>
+    <div id="radarChart" style="width: 100vw; height: 100vh;"></div>
+    <script>
+        var categories = ['Views', 'Engagement Rate', 'Saves', 'Comments', 'Shares', 'Follows Gained'];
+        var data = [
+            {
+                type: 'scatterpolar',
+                r: [0.95, 0.85, 0.80, 0.70, 0.90, 0.88],
+                theta: categories,
+                fill: 'toself',
+                name: 'Viral Short',
+                line: { color: '#00D2FF', width: 2 },
+                fillcolor: 'rgba(0, 210, 255, 0.2)'
+            },
+            {
+                type: 'scatterpolar',
+                r: [0.70, 0.92, 0.88, 0.85, 0.75, 0.80],
+                theta: categories,
+                fill: 'toself',
+                name: 'High Engagement',
+                line: { color: '#F778BA', width: 2 },
+                fillcolor: 'rgba(247, 120, 186, 0.2)'
+            },
+            {
+                type: 'scatterpolar',
+                r: [0.55, 0.60, 0.65, 0.50, 0.45, 0.55],
+                theta: categories,
+                fill: 'toself',
+                name: 'Slow Burner',
+                line: { color: '#7EE787', width: 2 },
+                fillcolor: 'rgba(126, 231, 135, 0.2)'
+            }
+        ];
+
+        var layout = {
+            margin: { t: 20, r: 25, l: 25, b: 20 },
+            paper_bgcolor: '#0D1117',
+            polar: {
+                bgcolor: '#0D1117',
+                radialaxis: { visible: true, range: [0, 1], gridcolor: '#21262D', color: '#8B949E' },
+                angularaxis: { gridcolor: '#21262D', color: '#8B949E' }
+            },
+            legend: { orientation: 'h', y: -0.15, font: { color: '#8B949E', size: 10 } }
+        };
+
+        Plotly.newPlot('radarChart', data, layout, {responsive: true, displayModeBar: false});
+    </script>
+</body>
+</html>

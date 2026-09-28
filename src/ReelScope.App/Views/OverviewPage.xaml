@@ -1,0 +1,156 @@
+<Page
+    x:Class="ReelScope.App.Views.OverviewPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Spacing="20" Padding="16,0,16,24">
+            <!-- Header -->
+            <Grid ColumnDefinitions="*,Auto">
+                <StackPanel>
+                    <TextBlock Text="Overview Dashboard" FontSize="26" FontWeight="Bold"/>
+                    <TextBlock Text="Short-form content analytics for creators" FontSize="14" Foreground="#8B949E" Margin="0,4,0,0"/>
+                </StackPanel>
+                <Button Grid.Column="1" Content="Load Demo Dataset" Click="OnLoadDemoClicked" Style="{ThemeResource AccentButtonStyle}" CornerRadius="8"/>
+            </Grid>
+
+            <!-- 5 KPI Cards in a row (Reference 1) -->
+            <Grid ColumnDefinitions="*,*,*,*,*" ColumnSpacing="12">
+                <!-- Card 1: Views -->
+                <Border Background="#1C2128" CornerRadius="12" BorderBrush="#30363D" BorderThickness="1" Padding="16">
+                    <StackPanel Spacing="8">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon Glyph="&#xE7B3;" FontSize="14" Foreground="#58A6FF"/>
+                            <TextBlock Text="Views" FontSize="13" Foreground="#8B949E"/>
+                        </StackPanel>
+                        <TextBlock x:Name="TxtViews" Text="1.2M" FontSize="24" FontWeight="Bold"/>
+                        <TextBlock Text="↑ 32% vs. previous 28 days" FontSize="11" Foreground="#3FB950"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Card 2: Engagement Rate -->
+                <Border Grid.Column="1" Background="#1C2128" CornerRadius="12" BorderBrush="#30363D" BorderThickness="1" Padding="16">
+                    <StackPanel Spacing="8">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon Glyph="&#xEB51;" FontSize="14" Foreground="#F778BA"/>
+                            <TextBlock Text="Engagement Rate" FontSize="13" Foreground="#8B949E"/>
+                        </StackPanel>
+                        <TextBlock x:Name="TxtEngRate" Text="6.8%" FontSize="24" FontWeight="Bold"/>
+                        <TextBlock Text="↑ 18% vs. previous 28 days" FontSize="11" Foreground="#3FB950"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Card 3: Completion Rate -->
+                <Border Grid.Column="2" Background="#1C2128" CornerRadius="12" BorderBrush="#30363D" BorderThickness="1" Padding="16">
+                    <StackPanel Spacing="8">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon Glyph="&#xE768;" FontSize="14" Foreground="#58A6FF"/>
+                            <TextBlock Text="Completion Rate" FontSize="13" Foreground="#8B949E"/>
+                        </StackPanel>
+                        <TextBlock x:Name="TxtCompletionRate" Text="72%" FontSize="24" FontWeight="Bold"/>
+                        <TextBlock Text="↑ 6% vs. previous 28 days" FontSize="11" Foreground="#3FB950"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Card 4: Saves -->
+                <Border Grid.Column="3" Background="#1C2128" CornerRadius="12" BorderBrush="#30363D" BorderThickness="1" Padding="16">
+                    <StackPanel Spacing="8">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon Glyph="&#xE734;" FontSize="14" Foreground="#BC8CFF"/>
+                            <TextBlock Text="Saves" FontSize="13" Foreground="#8B949E"/>
+                        </StackPanel>
+                        <TextBlock x:Name="TxtSaves" Text="48.3K" FontSize="24" FontWeight="Bold"/>
+                        <TextBlock Text="↑ 41% vs. previous 28 days" FontSize="11" Foreground="#3FB950"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Card 5: Followers Gained -->
+                <Border Grid.Column="4" Background="#1C2128" CornerRadius="12" BorderBrush="#30363D" BorderThickness="1" Padding="16">
+                    <StackPanel Spacing="8">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon Glyph="&#xE77B;" FontSize="14" Foreground="#58A6FF"/>
+                            <TextBlock Text="Followers Gained" FontSize="13" Foreground="#8B949E"/>
+                        </StackPanel>
+                        <TextBlock x:Name="TxtFollowers" Text="12.4K" FontSize="24" FontWeight="Bold"/>
+                        <TextBlock Text="↑ 28% vs. previous 28 days" FontSize="11" Foreground="#3FB950"/>
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+            <!-- Mid Section: Performance Over Time + Insights Panel -->
+            <Grid ColumnDefinitions="2*,*" ColumnSpacing="16">
+                <!-- Content Performance Chart -->
+                <Border Background="#1C2128" CornerRadius="12" BorderBrush="#30363D" BorderThickness="1" Padding="20">
+                    <StackPanel Spacing="16">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <StackPanel>
+                                <TextBlock Text="Content Performance Over Time" FontSize="16" FontWeight="SemiBold"/>
+                                <TextBlock Text="Views, engagement and completion rate" FontSize="12" Foreground="#8B949E"/>
+                            </StackPanel>
+                            <ComboBox Grid.Column="1" SelectedIndex="0" CornerRadius="6">
+                                <ComboBoxItem Content="Views" />
+                                <ComboBoxItem Content="Engagement" />
+                                <ComboBoxItem Content="Completion" />
+                            </ComboBox>
+                        </Grid>
+                        <!-- WebView2 Interactive Plotly Chart Container -->
+                        <Border Height="240" CornerRadius="8" Background="#0D1117">
+                            <WebView2 x:Name="ChartWebView"/>
+                        </Border>
+                    </StackPanel>
+                </Border>
+
+                <!-- Insights Panel -->
+                <Border Grid.Column="1" Background="#1C2128" CornerRadius="12" BorderBrush="#30363D" BorderThickness="1" Padding="20">
+                    <StackPanel Spacing="14">
+                        <TextBlock Text="Insights" FontSize="16" FontWeight="SemiBold"/>
+                        <ItemsControl x:Name="InsightsList">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Margin="0,0,0,8" Padding="12" CornerRadius="8" Background="#0D1117">
+                                        <StackPanel Spacing="4">
+                                            <TextBlock Text="{Binding Title}" FontSize="13" FontWeight="SemiBold" Foreground="#58A6FF"/>
+                                            <TextBlock Text="{Binding Description}" FontSize="12" Foreground="#8B949E" TextWrapping="Wrap"/>
+                                        </StackPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+            <!-- Bottom Row: Content Formats + Platform Mix + Recent Posts -->
+            <Grid ColumnDefinitions="*,*,1.4*" ColumnSpacing="16">
+                <!-- Formats -->
+                <Border Background="#1C2128" CornerRadius="12" BorderBrush="#30363D" BorderThickness="1" Padding="16">
+                    <StackPanel Spacing="12">
+                        <TextBlock Text="Content Formats" FontSize="15" FontWeight="SemiBold"/>
+                        <TextBlock Text="Views by format archetype" FontSize="11" Foreground="#8B949E"/>
+                        <ItemsControl x:Name="FormatList"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Platform Mix -->
+                <Border Grid.Column="1" Background="#1C2128" CornerRadius="12" BorderBrush="#30363D" BorderThickness="1" Padding="16">
+                    <StackPanel Spacing="12">
+                        <TextBlock Text="Platform Mix" FontSize="15" FontWeight="SemiBold"/>
+                        <TextBlock Text="Share of total views" FontSize="11" Foreground="#8B949E"/>
+                        <ItemsControl x:Name="PlatformList"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Recent Posts -->
+                <Border Grid.Column="2" Background="#1C2128" CornerRadius="12" BorderBrush="#30363D" BorderThickness="1" Padding="16">
+                    <StackPanel Spacing="12">
+                        <TextBlock Text="Recent Posts" FontSize="15" FontWeight="SemiBold"/>
+                        <ListView x:Name="RecentPostsList" SelectionMode="None"/>
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </StackPanel>
+    </ScrollViewer>
+</Page>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdn.plot.ly/plotly-2.29.0.min.js"></script>
+    <style>
+        body { margin: 0; background: #0D1117; color: #C9D1D9; font-family: Segoe UI, sans-serif; overflow: hidden; }
+    </style>
+</head>
+<body>
+    <div id="scatterPlot" style="width: 100vw; height: 100vh;"></div>
+    <script>
+        var n = 150;
+        var views = [];
+        var completionRates = [];
+        var textLabels = [];
+
+        for (var i = 0; i < n; i++) {
+            var v = Math.pow(10, 3 + Math.random() * 3.2); // log-scale 1K to 1.5M
+            var cr = Math.min(95, Math.max(10, 30 + 10 * Math.log10(v / 1000) + (Math.random() - 0.5) * 25));
+            views.push(v);
+            completionRates.push(cr);
+            textLabels.push('Post #' + (100 + i));
+        }
+
+        var traceDots = {
+            x: views,
+            y: completionRates,
+            text: textLabels,
+            mode: 'markers',
+            type: 'scatter',
+            marker: {
+                size: 7,
+                color: '#58A6FF',
+                opacity: 0.75
+            }
+        };
+
+        var traceTrend = {
+            x: [1000, 10000, 100000, 1000000],
+            y: [30, 42, 54, 66],
+            mode: 'lines',
+            type: 'scatter',
+            line: { dash: 'dash', color: '#8B949E', width: 2 }
+        };
+
+        var layout = {
+            margin: { t: 10, r: 15, l: 45, b: 35 },
+            paper_bgcolor: '#0D1117',
+            plot_bgcolor: '#0D1117',
+            xaxis: {
+                type: 'log',
+                gridcolor: '#21262D',
+                color: '#8B949E',
+                tickvals: [1000, 10000, 100000, 1000000],
+                ticktext: ['1K', '10K', '100K', '1M']
+            },
+            yaxis: {
+                gridcolor: '#21262D',
+                color: '#8B949E',
+                ticksuffix: '%'
+            },
+            showlegend: false
+        };
+
+        Plotly.newPlot('scatterPlot', [traceDots, traceTrend], layout, {responsive: true, displayModeBar: false});
+    </script>
+</body>
+</html>
